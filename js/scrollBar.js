@@ -81,6 +81,7 @@
                     showBar(true);
                 }
             }).on('mouseleave',function(){
+                document.body.onmousewheel = null;
                 if(!o.barShow && o.isFadeOut){
                     showBar(false);
                 }
@@ -212,7 +213,7 @@
                     barDistance: null
                 };
 
-                var positionDiv, distenceX, distenceY, x, y, maxX, maxY, distance, scrollDistance, barDistance;
+                var positionDiv, distenceX, distenceY, x, y, maxX, maxY, distance, scrollDistance, barDistance,temp;
                 maxX = rail.outerWidth(true) - bar.outerWidth(true);
                 maxY = rail.outerHeight(true) - bar.outerHeight(true);
                 if (isWheel == 1) {//鼠标滚轮
@@ -223,17 +224,21 @@
                     }
                     if (eve.wheelDelta) { //非FF
                         if (eve.wheelDelta > 0) {
-                            y = priDistance - o.scrollDistance
+                            temp = priDistance - o.scrollDistance
                         } else {
-                            y = priDistance + o.scrollDistance
+                            temp = priDistance + o.scrollDistance
                         }
                     } else if (eve.detail) { //FF
                         if (eve.detail > 0) {
-                            y = priDistance + o.scrollDistance
+                            temp = priDistance + o.scrollDistance
                         } else {
-                            y = priDistance - o.scrollDistance
+                            temp = priDistance - o.scrollDistance
                         }
-
+                    };
+                   if (o.orient == 'h') {
+                        x = temp;
+                    } else if (o.orient == 'v') {
+                        y = temp;
                     }
                 } else if(isWheel == 2){ //鼠标拖动
                     positionDiv = rail.offset();  
